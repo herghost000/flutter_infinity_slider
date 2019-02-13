@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 int kRealPage;
-double autoMaxPage;
-double autoMinPage;
+double kAutoMaxPage;
+double kAutoMinPage;
 
 int _calcIndex(int input, int source) {
   final int result = input % source;
@@ -17,6 +17,8 @@ int _getRealIndex(int position, int base, int length) {
   return _calcIndex(offset, length);
 }
 
+typedef void UpdatePageCallback(int index);
+
 class InfinitySlider extends StatefulWidget {
   final int initialPage;
   final List<Widget> items;
@@ -26,6 +28,7 @@ class InfinitySlider extends StatefulWidget {
   final Duration transDuration;
   final double height;
   final PageController pageController;
+  final UpdatePageCallback updateCallback;
 
   InfinitySlider({
     Key key,
@@ -36,6 +39,7 @@ class InfinitySlider extends StatefulWidget {
     this.interval: const Duration(seconds: 2),
     this.transDuration: const Duration(milliseconds: 800),
     this.transCurve: Curves.fastOutSlowIn,
+    this.updateCallback,
   })  : pageController = new PageController(
           initialPage: kRealPage + initialPage,
         ),
@@ -48,8 +52,8 @@ class InfinitySlider extends StatefulWidget {
         assert(transCurve != null),
         super(key: key) {
     kRealPage = items.length;
-    autoMinPage = 0.0;
-    autoMaxPage = (items.length * 2).toDouble();
+    kAutoMinPage = 0.0;
+    kAutoMaxPage = (items.length * 2).toDouble();
   }
 
   @override
@@ -72,8 +76,8 @@ class _InfinitySliderState extends State<InfinitySlider> {
   void initState() {
     super.initState();
     widget.pageController.addListener(() {
-      if (widget.pageController.page == autoMinPage ||
-          widget.pageController.page == autoMaxPage) {
+      if (widget.pageController.page == kAutoMinPage ||
+          widget.pageController.page == kAutoMaxPage) {
         widget.pageController.position
             .setPixels(MediaQuery.of(context).size.width * kRealPage);
       }
@@ -97,6 +101,10 @@ class _InfinitySliderState extends State<InfinitySlider> {
           return widget.items[index];
         },
         controller: widget.pageController,
+        onPageChanged: (int index) {
+          currentPage = _getRealIndex(index, kRealPage, widget.items.length);
+          if (widget.updateCallback != null) widget.updateCallback(currentPage);
+        },
       ),
     );
   }
