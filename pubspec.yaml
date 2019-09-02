@@ -1,8 +1,8 @@
 name: infinity_slider
-description: infinity slider
-version: 0.0.1
-author:
-homepage:
+description: A slider widget, support infinite scroll and slider nesting .
+version: 1.0.0
+author: zackaddy <xherghost@gmail.com>
+homepage: https://github.com/herghost000/flutter_infinity_slider
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"

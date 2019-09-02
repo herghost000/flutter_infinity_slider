@@ -4,7 +4,7 @@ A infinity slider widget, support infinite scroll and autoplay feature.
 
 ## Installation
 
-Add `infinity_slider: ^0.0.1` in your `pubspec.yaml` dependencies. And import it:
+Add `infinity_slider: ^1.0.0` in your `pubspec.yaml` dependencies. And import it:
 
 ```dart
 import 'package:infinity_slider/infinity_slider.dart';
@@ -49,7 +49,43 @@ Animate to the next page
 
 Animate to the previous page
 
+### `.animateToPage(int page, {Duration duration, Curve curve})`
+
+Animate to the other page
+
+### `.jumpToPage(int page)`
+
+jump to the other page
+
 ## Faq
+### Can I nest both sliders?
+
+Yes, you can.
+
+```dart
+InfinitySlider(
+    items: [1,2,3].map((int outIndex) {
+      return Builder(
+        builder: (BuildContext context) {
+          return InfinitySlider(
+            items: [4,5].map((int innerIndex) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return Container(
+                    color: Colors.amber,
+                    child: Text("$outIndex-$innerIndex"),
+                  );
+                },
+              );
+            }).toList(),
+            loop: false,
+          );
+        },
+      );
+    }).toList(),
+    loop: false,
+)
+```
 
 ### Can I display a dotted indicator for the slider?
 
