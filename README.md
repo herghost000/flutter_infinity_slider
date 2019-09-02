@@ -1,6 +1,6 @@
 # infinity_slider
 
-A infinity slider widget, support infinite scroll and autoplay feature.
+A infinity slider widget, support infinite scroll and slider nesting .
 
 ## Installation
 
